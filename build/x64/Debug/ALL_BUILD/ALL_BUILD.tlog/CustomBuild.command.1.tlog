@@ -1,0 +1,10 @@
+^C:\USERS\ZHOPA\DOCUMENTS\GITHUB\RL-TEXTEDITOR\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Zhopa/Documents/GitHub/rl-texteditor -BC:/Users/Zhopa/Documents/GitHub/rl-texteditor/build --check-stamp-file C:/Users/Zhopa/Documents/GitHub/rl-texteditor/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

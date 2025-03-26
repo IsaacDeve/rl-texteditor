@@ -1,0 +1,10 @@
+^C:\USERS\ZHOPA\DOCUMENTS\GITHUB\RL-TEXTEDITOR\BUILD\CMAKEFILES\DE61DCC2A5137080C677839690A1591F\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/Zhopa/Documents/GitHub/rl-texteditor -BC:/Users/Zhopa/Documents/GitHub/rl-texteditor/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Zhopa/Documents/GitHub/rl-texteditor/build/rlte.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
