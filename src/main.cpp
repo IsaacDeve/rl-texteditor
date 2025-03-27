@@ -23,31 +23,36 @@ int main(void) {
 
     SetTargetFPS(240); 
 
-    while (!WindowShouldClose()) {
+
+    try {
+        while (!WindowShouldClose()) {
         
-    BeginDrawing();
-    BeginMode2D(camera::camera);
-
-    ClearBackground(BLACK);
-
-    switch(current_mode) {
-        case MODE_EDITOR: {
-            mode_editor::Update();
-            mode_editor::Draw();
-            break;
-        }
-        case MODE_EXPLORER: {
-            mode_explorer::Update();
-            mode_explorer::Draw();
-            break;
+            BeginDrawing();
+        
+            ClearBackground(BLACK);
+        
+            switch(current_mode) {
+                case MODE_EDITOR: {
+                    mode_editor::Update();
+                    mode_editor::Draw();
+                    break;
+                }
+                case MODE_EXPLORER: {
+                    mode_explorer::Update();
+                    mode_explorer::Draw();
+                    break;
+                }
+            }
+        
+            EndDrawing();
+        
         }
     }
-
-    EndMode2D();
-
-    EndDrawing();
-
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
     }
+
+
     UnloadFont(mode_editor::font);
     CloseWindow();
     return 0;

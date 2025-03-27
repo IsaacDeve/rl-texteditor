@@ -1,8 +1,14 @@
 #include <iostream>
+#include <string>
+
+#include <iostream>
+#include <fstream> 
 
 #include "mode_editor.hpp"
 #include "camera.hpp"
 #include "modes.hpp"
+
+#include "winh.hpp"
 
 namespace mode_editor {
 
@@ -16,6 +22,8 @@ namespace mode_editor {
     int letterCount = 0;
     int key;
 
+    int fontSize = 30;
+
     Vector2 curPos = {0, 0};
 
     Font font;
@@ -23,6 +31,12 @@ namespace mode_editor {
     void InitEditor() {
         current_mode = MODE_EDITOR;
         font = LoadFont("C:/Windows/Fonts/consola.ttf");
+        camera::camera.offset = { GetScreenWidth() / 2.0f, GetScreenHeight() / 2.0f };
+        camera::camera.target = { 0, 0 };
+        camera::camera.rotation = 0.0f;
+        camera::camera.zoom = 1.0f;
+
+        camera::camtarget = { 0, 0 };
     }
 
     Color GetRandomRGB(bool alpha) {
@@ -35,7 +49,8 @@ namespace mode_editor {
     }
 
     void Update() {
-        camera::Update(curPos);
+        camera::camera.target.x += (camera::camtarget.x - camera::camera.target.x) * 1.5f * GetFrameTime();
+        camera::camera.target.y += (camera::camtarget.y - camera::camera.target.y) * 1.5f * GetFrameTime();
         if (IsKeyDown(KEY_RIGHT_CONTROL)) {
             if (IsKeyPressed(KEY_RIGHT))
             {
@@ -45,7 +60,50 @@ namespace mode_editor {
         }
         if (IsKeyDown(KEY_LEFT_CONTROL)) {
             if (IsKeyPressed(KEY_S)) {
+                if (pathLoaded == "") {
+
+                    std::wstring wloadedPath = winh::OpenFileDialog();
+                    pathLoaded = std::string(wloadedPath.begin(), wloadedPath.end());
+                }
+                std::ofstream file(pathLoaded);
+                file << currentText;
+                file.close();
+            }
+
+            if (IsKeyDown(KEY_LEFT_SHIFT))
+            {
+                if (IsKeyPressed(KEY_S)) {
+                    std::wstring wloadedPath = winh::OpenFileDialog();
+                    pathLoaded = std::string(wloadedPath.begin(), wloadedPath.end());
+                    std::ofstream file(pathLoaded);
+                    file << currentText;
+                    file.close();
+                }
+            }
+
+            if (IsKeyPressed(KEY_L)) {
+                cursor = 0;
+                letterCount = 0;
+                std::wstring wloadedPath = winh::OpenFileDialog();
+                pathLoaded = std::string(wloadedPath.begin(), wloadedPath.end());
+                std::ifstream file(pathLoaded);
+                std::string line;
+                currentText = "";
+                char ch;
+                while (file.get(ch)) {
+                    currentText += ch;
+                    letterCount++;
+                    cursor++;
+                }
                 
+                file.close();
+            }
+
+            if (IsKeyPressed(KEY_KP_ADD) || IsKeyPressed(KEY_EQUAL)) {
+                fontSize += 5;
+            }
+            if (IsKeyPressed(KEY_KP_SUBTRACT) || IsKeyPressed(KEY_MINUS)) {
+                fontSize -= 5;
             }
         }
     }
@@ -53,11 +111,20 @@ namespace mode_editor {
     void Draw() {
         if (IsKeyDown(KEY_RIGHT_CONTROL)) { return; }
         if (IsKeyDown(KEY_LEFT_CONTROL)) { return; }
+
+        BeginMode2D(camera::camera);
+
         key = GetCharPressed();
         if ((key >= 32) && (key <= 125) && (key > 0) && (letterCount < 1023)) {
             currentText.insert(cursor, 1, (char)key);
             cursor++;
             letterCount++;
+        }
+
+        if (IsKeyPressed(KEY_TAB)) {
+            currentText.insert(cursor, "    ");
+            cursor += 4;
+            letterCount += 4;
         }
 
         if (IsKeyPressed(KEY_ENTER)) {
@@ -67,17 +134,21 @@ namespace mode_editor {
         }
 
         if (IsKeyPressed(KEY_BACKSPACE) && letterCount > 0) {
-            currentText.erase(cursor - 1, 1);
-            letterCount--;
-            cursor--;
+            if (cursor > 0) {
+                currentText.erase(cursor - 1, 1);
+                cursor--;
+                letterCount--;
+            }
             backspaceDelay = 0;
         }
         else if (IsKeyDown(KEY_BACKSPACE) && letterCount > 0) {
             backspaceDelay++;
             if (backspaceDelay > 35000 * GetFrameTime() && backspaceDelay % 2 == 0) {
-                currentText.erase(cursor - 1, 1);
-                cursor--;
-                letterCount--;
+                if (cursor > 0) {
+                    currentText.erase(cursor - 1, 1);
+                    cursor--;
+                    letterCount--;
+                }
             }
         }
         else {
@@ -91,7 +162,7 @@ namespace mode_editor {
         Vector2 pos = {10, 10};
         for (char c : currentText) {
             if (symbol == cursor) {
-                DrawRectangle(pos.x, pos.y, 2, 30, WHITE);
+                DrawRectangle(pos.x, pos.y, 2, fontSize, WHITE);
                 curPos = pos;
             }
     
@@ -99,20 +170,24 @@ namespace mode_editor {
                 pos.y += 30;
                 pos.x = 10;
             } else {
-                DrawTextEx(font, std::string(1, c).c_str(), pos, 30, 0, WHITE);
-                pos.x += MeasureTextEx(font, std::string(1, c).c_str(), 30, 0).x;
+                DrawTextEx(font, std::string(1, c).c_str(), pos, fontSize, 0, WHITE);
+                pos.x += MeasureTextEx(font, std::string(1, c).c_str(), fontSize, 0).x;
             }
     
-            DrawCircleGradient(pos.x - 10, pos.y + 25 / 2, 50, Fade(GetRandomRGB(), 0.3f), Fade(BLANK, 0.0f));
+            DrawCircleGradient(pos.x - 10, pos.y + 25 / 2, fontSize + fontSize/3, Fade(BLACK, 0.3f), Fade(BLANK, 0.0f));
+            //DrawCircleGradient(pos.x - 10, pos.y + 25 / 2, fontSize + fontSize/3, Fade(YELLOW, 0.06f), Fade(BLANK, 0.0f));
             symbol++;
         }
         if (cursor == currentText.length()) {
-            DrawRectangle(curPos.x, curPos.y+23, 20, 2, WHITE);
+            DrawRectangle(curPos.x, curPos.y+fontSize, fontSize/2, 2+fontSize/10, WHITE);
             curPos = pos;
         }
 
         if (cursor < 0) cursor = 0;
         if (cursor > currentText.length()) cursor = currentText.length();
 
+        camera::camtarget = curPos;
+        
+        EndMode2D();
     }
 }

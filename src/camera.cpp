@@ -3,6 +3,7 @@
 
 namespace camera {
     Camera2D camera = { 0 };
+    Vector2 camtarget = { 0, 0 };
     void Update(Vector2& camPos) {
         camera.target = camPos;
         camera.offset = { (float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2 };
