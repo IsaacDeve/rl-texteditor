@@ -1,1 +1,5 @@
 C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\main.cpp;C:\Users\Zhopa\Documents\GitHub\rl-texteditor\build\rlte.dir\Debug\main.obj
+C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_editor.cpp;C:\Users\Zhopa\Documents\GitHub\rl-texteditor\build\rlte.dir\Debug\mode_editor.obj
+C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\modes.cpp;C:\Users\Zhopa\Documents\GitHub\rl-texteditor\build\rlte.dir\Debug\modes.obj
+C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_explorer.cpp;C:\Users\Zhopa\Documents\GitHub\rl-texteditor\build\rlte.dir\Debug\mode_explorer.obj
+C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\camera.cpp;C:\Users\Zhopa\Documents\GitHub\rl-texteditor\build\rlte.dir\Debug\camera.obj

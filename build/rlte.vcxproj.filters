@@ -4,6 +4,18 @@
     <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\modes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_explorer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\CMakeLists.txt" />

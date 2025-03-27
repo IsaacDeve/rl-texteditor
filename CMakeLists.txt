@@ -15,6 +15,10 @@ link_directories(${CMAKE_SOURCE_DIR}/lib)
 
 add_executable(rlte 
     src/main.cpp
+    src/mode_editor.cpp
+    src/modes.cpp
+    src/mode_explorer.cpp
+    src/camera.cpp
 )
 
 if (WIN32)

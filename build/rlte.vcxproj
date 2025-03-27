@@ -333,6 +333,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\main.cpp" />
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_editor.cpp" />
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\modes.cpp" />
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\mode_explorer.cpp" />
+    <ClCompile Include="C:\Users\Zhopa\Documents\GitHub\rl-texteditor\src\camera.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
