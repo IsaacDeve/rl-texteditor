@@ -9,7 +9,7 @@ namespace winh {
     
         OPENFILENAMEW ofn = {};
         ofn.lStructSize = sizeof(ofn);
-        ofn.lpstrFilter = L"Text Files\0*.txt\0All Files\0*.*\0";
+        ofn.lpstrFilter = L"All Files\0*.*\0";
         ofn.lpstrFile = filename;
         ofn.nMaxFile = MAX_PATH;
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
